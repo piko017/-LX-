@@ -43,7 +43,8 @@ jobs:
         else
           readme_content="# JavaScript Files\n\n"
         fi
-        for file in $files; do
+        IFS=$'\n' read -rd '' -a file_array <<<"$files"
+        for file in "${file_array[@]}"; do
           file_url="https://github.com/${{ github.repository }}/blob/master/${file#./}"
           readme_content+="**${file#./}**\n\`\`\`\n${file_url}\n\`\`\`\n\n"
         done
