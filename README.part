@@ -30,20 +30,21 @@
 
 <h2 align="center">洛雪音乐助手 音乐源</h2>
 
-## 说明
+## 😊关于洛雪音乐
 
-**关于洛雪音乐**
-桌面版：https://github.com/lyswhut/lx-music-desktop
-移动版：https://github.com/lyswhut/lx-music-mobile
+**桌面版**：https://github.com/lyswhut/lx-music-desktop
 
-**使用方法**
-1. 在线导入
+
+**移动版**：https://github.com/lyswhut/lx-music-mobile
+
+## 使用方法
+### 😃在线导入
 
 在下方[资源发布](#资源发布)中复制对应音乐源的链接
 
 粘贴到LX-Music应用的 `设置->自定义源管理->导入->在线导入`即可
 
-2. 下载到本地后导入
+### 📥下载到本地后导入
 
 在下方[下载资源](#下载资源)中下载打包好的zip文件
 
