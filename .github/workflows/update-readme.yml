@@ -21,7 +21,7 @@ jobs:
     - name: Get list of .js files
       id: get-files
       run: |
-        js_files=$(find . -name "*.js")
+        js_files=$(find . -name "*.js" -print0 | xargs -0 echo)
         echo "::set-output name=files::$js_files"
 
     - name: Create zip archive of .js files
@@ -43,7 +43,7 @@ jobs:
         else
           readme_content="# JavaScript Files\n\n"
         fi
-        IFS=$'\n' read -rd '' -a file_array <<<"$files"
+        IFS=' ' read -r -a file_array <<< "$files"
         for file in "${file_array[@]}"; do
           file_url="https://github.com/${{ github.repository }}/blob/master/${file#./}"
           readme_content+="**${file#./}**\n\`\`\`\n${file_url}\n\`\`\`\n\n"
