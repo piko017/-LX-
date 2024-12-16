@@ -1,0 +1,63 @@
+name: Update README
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Get list of .js files
+      id: get-files
+      run: |
+        js_files=$(find . -name "*.js" -print0 | xargs -0 echo)
+        echo "::set-output name=files::$js_files"
+
+    - name: Create zip archive of .js files
+      run: |
+        js_files="${{ steps.get-files.outputs.files }}"
+        zip -r js_files.zip $js_files
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: js-files-archive
+        path: js_files.zip
+
+    - name: Update README.md
+      run: |
+        files="${{ steps.get-files.outputs.files }}"
+        if [ -f README.part ]; then
+          readme_content=$(cat README.part)
+        else
+          readme_content="# JavaScript Files\n\n"
+        fi
+        IFS=' ' read -r -a file_array <<< "$files"
+        for file in "${file_array[@]}"; do
+          file_url="https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/master/${file#./}"
+          readme_content+="**${file#./}**\n\`\`\`\n${file_url}\n\`\`\`\n\n"
+        done
+        readme_content+="\n## 下载资源\n\n"
+        readme_content+="[下载所有 .js 文件的压缩包](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)\n"
+        echo -e "$readme_content" > README.md
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add README.md
+        git commit -m 'Update README with list of .js files and download link'
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
