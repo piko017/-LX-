@@ -30,7 +30,7 @@ jobs:
         zip -r js_files.zip $js_files
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: js-files-archive
         path: js_files.zip
