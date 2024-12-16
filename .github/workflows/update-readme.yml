@@ -46,7 +46,7 @@ jobs:
         IFS=' ' read -r -a file_array <<< "$files"
         for file in "${file_array[@]}"; do
           file_url="https://github.com/${{ github.repository }}/blob/master/${file#./}"
-          readme_content+="**${file#./}**\n\`\`\`\n${file_url}\n\`\`\`\n\n"
+          readme_content+="\n**${file#./}**\n\`\`\`\n${file_url}\n\`\`\`\n\n"
         done
         readme_content+="\n## 下载资源\n\n"
         readme_content+="[下载所有 .js 文件的压缩包](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)\n"
