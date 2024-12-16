@@ -43,7 +43,7 @@ jobs:
         else
           readme_content="# JavaScript Files\n\n"
         fi
-        IFS=$'\n' read -rd '' -a file_array <<<"$files"
+        IFS=' ' read -r -a file_array <<< "$files"
         for file in "${file_array[@]}"; do
           file_url="https://raw.githubusercontent.com/${{ github.repository }}/refs/heads/master/${file#./}"
           readme_content+="**${file#./}**\n\`\`\`\n${file_url}\n\`\`\`\n\n"
